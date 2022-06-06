@@ -55,14 +55,28 @@ function createPost(post) {
     postContent.classList.add('post-body')
     postContent.textContent = post.body;
 
+    let deleteBtn = document.createElement('button');
+    deleteBtn.setAttribute('data-id', post.id);
+    deleteBtn.classList.add('deletePost-button')
+    deleteBtn.innerText = "Delete Post";
+
     postDiv.appendChild(h3Tag);
     postDiv.appendChild(h2Tag);
     postDiv.appendChild(postContent);
+    postDiv.appendChild(deleteBtn);
 
     postDiv.addEventListener('click', function(event){
         let id = this.getAttribute('data-id');
+        // let id = event.target.getAttribute('data-id');
         openOverlay(id);
     })
+
+    deleteBtn.addEventListener('click', function(event) {
+        event.stopPropagation();
+        let id = event.target.getAttribute('data-id');
+        // deletePost(id);
+        this.closest('.post-div').remove();
+    });
 
     postsWrapper.appendChild(postDiv);
 }
@@ -111,5 +125,15 @@ function overlayFunction(item) {
     postContent.appendChild(overlayH3);
     postContent.appendChild(overlayH2);
     postContent.appendChild(descriptionPost);
-
 }
+
+// function deletePost(id) {
+//     let url = `https://jsonplaceholder.typicode.com/posts/${id}`;
+//     fetch (url, {
+//         method:'DELETE',
+//     })
+//         .then(response => response.json() )
+//         .then(data => {
+
+//         })
+// }
